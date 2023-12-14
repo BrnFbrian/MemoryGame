@@ -11,6 +11,9 @@ const characters = [
     'scroopy',
 ];
 
+let timer
+let currentTime
+let gameEnded = false
 const createElement = (tag, className) => {
     const element = document.createElement(tag);
     element.className = className;
@@ -23,9 +26,12 @@ let secondCard = '';
 const checkEndGame = () => {
     const disableCards = document.querySelectorAll('.disable-card');
 
-    if (disableCards.length == 20){
+    console.log(disableCards.length)
+
+    if (disableCards.length === 2){
         clearInterval(setInterval);
-        alert(`Parabens, ${spanPlayer.innerHTML}! Seu tempo foi: ${timer.innerHTML}`);
+        alert('O jogo acabou')
+        gameEnded = true
     }
 }
 
@@ -107,14 +113,16 @@ const loadGame = () => {
 }
 
 const startTimer = () => {
-   setInterval(() => {
-        const timer = document.querySelector('.timer');
-        
-        const currentTime = +timer.innerHTML;
-        timer.innerHTML = currentTime + 1;
-        
-    }, 1000);
-}
+    setInterval(() => {
+         timer = document.querySelector('.timer');
+         
+         currentTime = +timer.innerHTML;
+         timer.innerHTML = currentTime + 1;
+         if(gameEnded === true){
+            timer.innerHTML = currentTime
+         }
+     }, 1000);
+ }
 
 window.onload = () => { 
     const spanPlayer = document.querySelector('.player');
@@ -122,5 +130,6 @@ window.onload = () => {
     
 }
 
-document.addEventListener('DOMContentLoaded',() => startTimer());
 document.addEventListener('DOMContentLoaded',() => loadGame());
+document.addEventListener('DOMContentLoaded',() => startTimer());
+
